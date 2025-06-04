@@ -1,5 +1,3 @@
-// @ts-check
-
 import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import perfectionist from 'eslint-plugin-perfectionist';
