@@ -1,6 +1,10 @@
+import type { PrismaClient } from '@prisma/client';
+
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { compare } from 'bcryptjs';
 import { type DefaultSession, type NextAuthConfig } from 'next-auth';
-import DiscordProvider from 'next-auth/providers/discord';
+import { type Adapter } from 'next-auth/adapters';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { db } from '~/server/db';
 
@@ -31,18 +35,24 @@ declare module 'next-auth' {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authConfig = {
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db) as Adapter,
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, token }) => {
+      if (session.user) {
+
+        session.user.id = token.sub!;
+      }
+      return session;
+    },
   },
   providers: [
-    DiscordProvider,
+    CredentialsProvider({
+      authorize: (credentials) => authorize(db)(credentials as Record<'email' | 'password', string>),
+      credentials: {
+        email: { type: 'email' },
+        password: { type: 'password' },
+      },
+    }),
     /**
      * ...add more providers here.
      *
@@ -53,4 +63,28 @@ export const authConfig = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  session: {
+    strategy: 'jwt',
+  },
 } satisfies NextAuthConfig;
+
+function authorize(prisma: PrismaClient) {
+  return async (
+    credentials: Record<'email' | 'password', string> | undefined,
+  ) => {
+    if (!credentials) throw new Error('Missing credentials');
+    if (!credentials.email)
+      throw new Error('"email" is required in credentials');
+    if (!credentials.password)
+      throw new Error('"password" is required in credentials');
+    const maybeUser = await prisma.user.findFirst({
+      select: { email: true, id: true, name: true, password: true },
+      where: { email: credentials.email },
+    });
+    if (!maybeUser?.password) return null;
+    // verify the input password with stored hash
+    const isValid = await compare(credentials.password, maybeUser.password);
+    if (!isValid) return null;
+    return { email: maybeUser.email, id: maybeUser.id, name: maybeUser.name };
+  };
+}
