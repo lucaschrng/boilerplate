@@ -50,9 +50,9 @@ A modern, full-stack web development boilerplate built with Next.js 15, React 19
    ./start-database.sh
    ```
 
-5. Run database migrations:
+5. Sync your database and generate code:
    ```bash
-   pnpm db:push
+   pnpm db:sync
    ```
 
 6. Start the development server:
@@ -88,6 +88,7 @@ A modern, full-stack web development boilerplate built with Next.js 15, React 19
 - `pnpm build` - Build for production
 - `pnpm start` - Start production server
 - `pnpm preview` - Build and start production server
+- `pnpm db:sync` - Generate ZenStack code and sync database schema
 - `pnpm db:generate` - Generate Prisma client
 - `pnpm db:push` - Push schema to database
 - `pnpm db:migrate` - Run migrations
