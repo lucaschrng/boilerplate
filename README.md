@@ -30,7 +30,7 @@ A modern, full-stack web development boilerplate built with Next.js 15, React 19
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/boilerplate.git my-project
+   git clone git@github.com:lucaschrng/boilerplate.git my-project
    cd my-project
    ```
 
