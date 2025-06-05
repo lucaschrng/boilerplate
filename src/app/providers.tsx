@@ -3,8 +3,9 @@
 import type { ReactNode } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
+
+import { Toaster } from '~/components/ui/sonner';
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,8 @@ export default function Providers({ children }: { children: ReactNode }) {
       enableSystem
     >
       <QueryClientProvider client={queryClient}>
-        <SessionProvider>{children}</SessionProvider>
+        {children}
+        <Toaster />
       </QueryClientProvider>
     </ThemeProvider>
   );

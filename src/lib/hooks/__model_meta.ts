@@ -13,49 +13,17 @@ const metadata = {
                     name: "id",
                     type: "String",
                     isId: true,
-                    attributes: [{ "name": "@default", "args": [] }],
+                }, accountId: {
+                    name: "accountId",
+                    type: "String",
+                }, providerId: {
+                    name: "providerId",
+                    type: "String",
                 }, userId: {
                     name: "userId",
                     type: "String",
                     isForeignKey: true,
                     relationField: 'user',
-                }, type: {
-                    name: "type",
-                    type: "String",
-                }, provider: {
-                    name: "provider",
-                    type: "String",
-                }, providerAccountId: {
-                    name: "providerAccountId",
-                    type: "String",
-                }, refresh_token: {
-                    name: "refresh_token",
-                    type: "String",
-                    isOptional: true,
-                }, access_token: {
-                    name: "access_token",
-                    type: "String",
-                    isOptional: true,
-                }, expires_at: {
-                    name: "expires_at",
-                    type: "Int",
-                    isOptional: true,
-                }, token_type: {
-                    name: "token_type",
-                    type: "String",
-                    isOptional: true,
-                }, scope: {
-                    name: "scope",
-                    type: "String",
-                    isOptional: true,
-                }, id_token: {
-                    name: "id_token",
-                    type: "String",
-                    isOptional: true,
-                }, session_state: {
-                    name: "session_state",
-                    type: "String",
-                    isOptional: true,
                 }, user: {
                     name: "user",
                     type: "User",
@@ -64,18 +32,45 @@ const metadata = {
                     isRelationOwner: true,
                     onDeleteAction: 'Cascade',
                     foreignKeyMapping: { "id": "userId" },
-                }, refresh_token_expires_in: {
-                    name: "refresh_token_expires_in",
-                    type: "Int",
+                }, accessToken: {
+                    name: "accessToken",
+                    type: "String",
                     isOptional: true,
+                }, refreshToken: {
+                    name: "refreshToken",
+                    type: "String",
+                    isOptional: true,
+                }, idToken: {
+                    name: "idToken",
+                    type: "String",
+                    isOptional: true,
+                }, accessTokenExpiresAt: {
+                    name: "accessTokenExpiresAt",
+                    type: "DateTime",
+                    isOptional: true,
+                }, refreshTokenExpiresAt: {
+                    name: "refreshTokenExpiresAt",
+                    type: "DateTime",
+                    isOptional: true,
+                }, scope: {
+                    name: "scope",
+                    type: "String",
+                    isOptional: true,
+                }, password: {
+                    name: "password",
+                    type: "String",
+                    isOptional: true,
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
                 },
             }, uniqueConstraints: {
                 id: {
                     name: "id",
                     fields: ["id"]
-                }, provider_providerAccountId: {
-                    name: "provider_providerAccountId",
-                    fields: ["provider", "providerAccountId"]
                 },
             },
         },
@@ -85,18 +80,31 @@ const metadata = {
                     name: "id",
                     type: "String",
                     isId: true,
-                    attributes: [{ "name": "@default", "args": [] }],
-                }, sessionToken: {
-                    name: "sessionToken",
+                }, expiresAt: {
+                    name: "expiresAt",
+                    type: "DateTime",
+                }, token: {
+                    name: "token",
                     type: "String",
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                }, ipAddress: {
+                    name: "ipAddress",
+                    type: "String",
+                    isOptional: true,
+                }, userAgent: {
+                    name: "userAgent",
+                    type: "String",
+                    isOptional: true,
                 }, userId: {
                     name: "userId",
                     type: "String",
                     isForeignKey: true,
                     relationField: 'user',
-                }, expires: {
-                    name: "expires",
-                    type: "DateTime",
                 }, user: {
                     name: "user",
                     type: "User",
@@ -110,9 +118,9 @@ const metadata = {
                 id: {
                     name: "id",
                     fields: ["id"]
-                }, sessionToken: {
-                    name: "sessionToken",
-                    fields: ["sessionToken"]
+                }, token: {
+                    name: "token",
+                    fields: ["token"]
                 },
             },
         },
@@ -122,38 +130,43 @@ const metadata = {
                     name: "id",
                     type: "String",
                     isId: true,
-                    attributes: [{ "name": "@default", "args": [] }],
                 }, name: {
                     name: "name",
                     type: "String",
-                    isOptional: true,
                 }, email: {
                     name: "email",
                     type: "String",
-                    isOptional: true,
                 }, emailVerified: {
                     name: "emailVerified",
-                    type: "DateTime",
-                    isOptional: true,
-                }, password: {
-                    name: "password",
-                    type: "String",
+                    type: "Boolean",
                 }, image: {
                     name: "image",
                     type: "String",
                     isOptional: true,
-                }, accounts: {
-                    name: "accounts",
-                    type: "Account",
-                    isDataModel: true,
-                    isArray: true,
-                    backLink: 'user',
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
                 }, sessions: {
                     name: "sessions",
                     type: "Session",
                     isDataModel: true,
                     isArray: true,
                     backLink: 'user',
+                }, accounts: {
+                    name: "accounts",
+                    type: "Account",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'user',
+                }, posts: {
+                    name: "posts",
+                    type: "Post",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'author',
                 },
             }, uniqueConstraints: {
                 id: {
@@ -188,13 +201,93 @@ const metadata = {
                 },
             },
         },
+        verification: {
+            name: 'Verification', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                }, identifier: {
+                    name: "identifier",
+                    type: "String",
+                }, value: {
+                    name: "value",
+                    type: "String",
+                }, expiresAt: {
+                    name: "expiresAt",
+                    type: "DateTime",
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    isOptional: true,
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    isOptional: true,
+                },
+            }, uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            },
+        },
+        post: {
+            name: 'Post', fields: {
+                id: {
+                    name: "id",
+                    type: "Int",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                    isAutoIncrement: true,
+                }, title: {
+                    name: "title",
+                    type: "String",
+                }, content: {
+                    name: "content",
+                    type: "String",
+                }, authorId: {
+                    name: "authorId",
+                    type: "String",
+                    attributes: [{ "name": "@default", "args": [] }],
+                    defaultValueProvider: $default$Post$authorId,
+                    isForeignKey: true,
+                    relationField: 'author',
+                }, author: {
+                    name: "author",
+                    type: "User",
+                    isDataModel: true,
+                    backLink: 'posts',
+                    isRelationOwner: true,
+                    onDeleteAction: 'Cascade',
+                    foreignKeyMapping: { "id": "authorId" },
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }, uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            },
+        },
 
     },
     deleteCascade: {
-        user: ['Account', 'Session'],
+        user: ['Account', 'Session', 'Post'],
 
     },
     authModel: 'User'
 
 };
+
+function $default$Post$authorId(user: any): unknown {
+    return user?.id;
+}
 export default metadata;

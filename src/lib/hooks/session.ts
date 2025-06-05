@@ -5,7 +5,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Prisma, Session } from "@prisma/client";
+import type { Prisma, Session } from "@zenstackhq/runtime/models";
 import type { UseMutationOptions, UseQueryOptions, UseInfiniteQueryOptions, InfiniteData } from '@tanstack/react-query';
 import { getHooksContext } from '@zenstackhq/tanstack-query/runtime-v5/react';
 import { useModelQuery, useInfiniteModelQuery, useModelMutation } from '@zenstackhq/tanstack-query/runtime-v5/react';
@@ -328,7 +328,7 @@ export function useSuspenseCountSession<TArgs extends Prisma.SessionCountArgs, T
     return useSuspenseModelQuery<TQueryFnData, TData, TError>('Session', `${endpoint}/session/count`, args, options, fetch);
 }
 
-export function useCheckSession<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; sessionToken?: string; userId?: string }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
+export function useCheckSession<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; token?: string; ipAddress?: string; userAgent?: string; userId?: string }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
     return useModelQuery<boolean, boolean, TError>('Session', `${endpoint}/session/check`, args, options, fetch);
 }

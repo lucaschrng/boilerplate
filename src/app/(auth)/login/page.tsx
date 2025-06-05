@@ -3,7 +3,6 @@
 import type { NextPage } from 'next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -14,6 +13,7 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
+import { signIn } from '~/lib/auth-client';
 
 const Signin: NextPage = () => {
   const router = useRouter();
@@ -34,18 +34,16 @@ const Signin: NextPage = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password } = values;
 
-    const result = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
+    await signIn.email({ email, password }, {
+      onError: () => {
+        toast.error('Failed to login', {
+          description: 'Check your email and password',
+        });
+      },
+      onSuccess: () => {
+        router.push('/');
+      },
     });
-
-    if (result?.ok) {
-      toast.success('Logged in successfully');
-      router.push('/');
-    } else {
-      console.error('Failed to login');
-    }
   }
 
   return (

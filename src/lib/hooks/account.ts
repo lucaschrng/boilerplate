@@ -5,7 +5,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Prisma, Account } from "@prisma/client";
+import type { Prisma, Account } from "@zenstackhq/runtime/models";
 import type { UseMutationOptions, UseQueryOptions, UseInfiniteQueryOptions, InfiniteData } from '@tanstack/react-query';
 import { getHooksContext } from '@zenstackhq/tanstack-query/runtime-v5/react';
 import { useModelQuery, useInfiniteModelQuery, useModelMutation } from '@zenstackhq/tanstack-query/runtime-v5/react';
@@ -328,7 +328,7 @@ export function useSuspenseCountAccount<TArgs extends Prisma.AccountCountArgs, T
     return useSuspenseModelQuery<TQueryFnData, TData, TError>('Account', `${endpoint}/account/count`, args, options, fetch);
 }
 
-export function useCheckAccount<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; userId?: string; type?: string; provider?: string; providerAccountId?: string; refresh_token?: string; access_token?: string; expires_at?: number; token_type?: string; scope?: string; id_token?: string; session_state?: string; refresh_token_expires_in?: number }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
+export function useCheckAccount<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; accountId?: string; providerId?: string; userId?: string; accessToken?: string; refreshToken?: string; idToken?: string; scope?: string; password?: string }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
     return useModelQuery<boolean, boolean, TError>('Account', `${endpoint}/account/check`, args, options, fetch);
 }

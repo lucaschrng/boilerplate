@@ -3,7 +3,6 @@
 import type { NextPage } from 'next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -14,10 +13,9 @@ import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
-import { useCreateUser } from '~/lib/hooks';
+import { signUp } from '~/lib/auth-client';
 
 const Signup: NextPage = () => {
-  const { mutateAsync: signup } = useCreateUser();
   const router = useRouter();
 
   const formSchema = z.object({
@@ -37,25 +35,23 @@ const Signup: NextPage = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, name, password } = values;
-    try {
-      await signup({ data: { email, name, password } });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      console.error(err);
-
-      if (err.info?.prisma && err.info?.code === 'P2002') {
-        // P2002 is Prisma's error code for unique constraint violations
-        toast.error('An account with that email already exists');
-      } else {
-        toast.error('Failed to create account');
-      }
-      return;
-    }
-
-    // signin to create a session
-    await signIn('credentials', { email, password, redirect: false });
-    toast.success('Account created successfully');
-    router.push('/');
+    await signUp.email({ email, name, password }, {
+      onError: (error) => {
+        if (error.error.code === 'USER_ALREADY_EXISTS') {
+          toast.error('Fail to sign up', {
+            description: 'An account with that email already exists',
+          });
+        } else {
+          toast.error('Fail to sign up', {
+            description: 'An unknown error occurred',
+          });
+        }
+      },
+      onSuccess: () => {
+        toast.success('Account created successfully');
+        router.push('/login');
+      },
+    });
   }
 
   return (
