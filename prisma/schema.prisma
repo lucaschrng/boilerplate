@@ -12,6 +12,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ArticleVisibility {
+  PUBLIC
+  PRIVATE
+}
+
 model Account {
   id                    String    @id()
   accountId             String
@@ -53,6 +63,7 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  articles      Article[]
 
   @@unique([email])
 }
@@ -72,4 +83,25 @@ model Verification {
   expiresAt  DateTime
   createdAt  DateTime?
   updatedAt  DateTime?
+}
+
+model Article {
+  id         String            @id() @default(cuid())
+  title      String
+  content    String
+  status     ArticleStatus     @default(DRAFT)
+  visibility ArticleVisibility @default(PUBLIC)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt()
+  authorId   String
+  author     User              @relation(fields: [authorId], references: [id])
+  categories ArticleCategory[]
+}
+
+model ArticleCategory {
+  id        String    @id() @default(cuid())
+  name      String
+  articles  Article[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
 }

@@ -161,6 +161,12 @@ const metadata = {
                     isDataModel: true,
                     isArray: true,
                     backLink: 'user',
+                }, articles: {
+                    name: "articles",
+                    type: "Article",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'author',
                 },
             }, uniqueConstraints: {
                 id: {
@@ -226,6 +232,97 @@ const metadata = {
                 },
             },
         },
+        article: {
+            name: 'Article', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, title: {
+                    name: "title",
+                    type: "String",
+                }, content: {
+                    name: "content",
+                    type: "String",
+                }, status: {
+                    name: "status",
+                    type: "ArticleStatus",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, visibility: {
+                    name: "visibility",
+                    type: "ArticleVisibility",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                }, authorId: {
+                    name: "authorId",
+                    type: "String",
+                    attributes: [{ "name": "@default", "args": [] }],
+                    defaultValueProvider: $default$Article$authorId,
+                    isForeignKey: true,
+                    relationField: 'author',
+                }, author: {
+                    name: "author",
+                    type: "User",
+                    isDataModel: true,
+                    backLink: 'articles',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "authorId" },
+                }, categories: {
+                    name: "categories",
+                    type: "ArticleCategory",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'articles',
+                    isRelationOwner: true,
+                },
+            }, uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            },
+        },
+        articleCategory: {
+            name: 'ArticleCategory', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, name: {
+                    name: "name",
+                    type: "String",
+                }, articles: {
+                    name: "articles",
+                    type: "Article",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'categories',
+                    isRelationOwner: true,
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }, uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            },
+        },
 
     },
     deleteCascade: {
@@ -235,4 +332,8 @@ const metadata = {
     authModel: 'User'
 
 };
+
+function $default$Article$authorId(user: any): unknown {
+    return user?.id;
+}
 export default metadata;

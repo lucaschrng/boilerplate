@@ -62,6 +62,7 @@ model User {
     updatedAt     DateTime
     sessions      Session[]
     accounts      Account[]
+    articles      Article[]
 
     @@unique([email])
 
@@ -85,4 +86,47 @@ model Verification {
     expiresAt  DateTime
     createdAt  DateTime?
     updatedAt  DateTime?
+}
+
+enum ArticleStatus {
+    DRAFT
+    PUBLISHED
+}
+
+enum ArticleVisibility {
+    PUBLIC
+    PRIVATE
+}
+
+model Article {
+    id         String            @id @default(cuid())
+    title      String
+    content    String
+    status     ArticleStatus     @default(DRAFT)
+    visibility ArticleVisibility @default(PUBLIC)
+    createdAt  DateTime          @default(now())
+    updatedAt  DateTime          @updatedAt
+    authorId   String            @default(auth().id)
+    author     User              @relation(fields: [authorId], references: [id])
+    categories ArticleCategory[]
+
+    @@allow('create', true)
+
+    @@allow('read', 
+        (status == PUBLISHED && visibility == PUBLIC) 
+        || auth() == author
+    )
+
+    @@allow('update,delete', auth() == author)
+}
+
+model ArticleCategory {
+    id        String    @id @default(cuid())
+    name      String
+    articles  Article[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    @@allow('read', true)
+    @@allow('create,update,delete', false)
 }
