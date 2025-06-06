@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { type PropsWithChildren } from 'react';
 
+import { Navbar } from '~/components/layout/navbar';
 import { auth } from '~/server/auth';
 
 const Layout: React.FC<PropsWithChildren> = async ({ children }) => {
@@ -13,7 +14,10 @@ const Layout: React.FC<PropsWithChildren> = async ({ children }) => {
     redirect('/login');
   }
   return (
-    <>{children}</>
+    <>
+      <Navbar />
+      {children}
+    </>
   );
 };
 
