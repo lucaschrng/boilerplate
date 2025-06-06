@@ -161,12 +161,6 @@ const metadata = {
                     isDataModel: true,
                     isArray: true,
                     backLink: 'user',
-                }, posts: {
-                    name: "posts",
-                    type: "Post",
-                    isDataModel: true,
-                    isArray: true,
-                    backLink: 'author',
                 },
             }, uniqueConstraints: {
                 id: {
@@ -232,62 +226,13 @@ const metadata = {
                 },
             },
         },
-        post: {
-            name: 'Post', fields: {
-                id: {
-                    name: "id",
-                    type: "Int",
-                    isId: true,
-                    attributes: [{ "name": "@default", "args": [] }],
-                    isAutoIncrement: true,
-                }, title: {
-                    name: "title",
-                    type: "String",
-                }, content: {
-                    name: "content",
-                    type: "String",
-                }, authorId: {
-                    name: "authorId",
-                    type: "String",
-                    attributes: [{ "name": "@default", "args": [] }],
-                    defaultValueProvider: $default$Post$authorId,
-                    isForeignKey: true,
-                    relationField: 'author',
-                }, author: {
-                    name: "author",
-                    type: "User",
-                    isDataModel: true,
-                    backLink: 'posts',
-                    isRelationOwner: true,
-                    onDeleteAction: 'Cascade',
-                    foreignKeyMapping: { "id": "authorId" },
-                }, createdAt: {
-                    name: "createdAt",
-                    type: "DateTime",
-                    attributes: [{ "name": "@default", "args": [] }],
-                }, updatedAt: {
-                    name: "updatedAt",
-                    type: "DateTime",
-                    attributes: [{ "name": "@updatedAt", "args": [] }],
-                },
-            }, uniqueConstraints: {
-                id: {
-                    name: "id",
-                    fields: ["id"]
-                },
-            },
-        },
 
     },
     deleteCascade: {
-        user: ['Account', 'Session', 'Post'],
+        user: ['Account', 'Session'],
 
     },
     authModel: 'User'
 
 };
-
-function $default$Post$authorId(user: any): unknown {
-    return user?.id;
-}
 export default metadata;
