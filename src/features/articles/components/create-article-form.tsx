@@ -39,6 +39,11 @@ export function CreateArticleForm() {
     void form.handleSubmit(onSubmit)();
   };
 
+  const handlePublish = () => {
+    setStatus('PUBLISHED');
+    void form.handleSubmit(onSubmit)();
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -48,7 +53,7 @@ export function CreateArticleForm() {
         </CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form>
           <CardContent>
             <div className="grid gap-6">
               <FormField
@@ -92,8 +97,8 @@ export function CreateArticleForm() {
                 </Button>
                 <Button
                   isLoading={isPending && status === 'PUBLISHED'}
-                  onClick={() => setStatus('PUBLISHED')}
-                  type="submit"
+                  onClick={handlePublish}
+                  type="button"
                 >
                   Publish
                 </Button>
