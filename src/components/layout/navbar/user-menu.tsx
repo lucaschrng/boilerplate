@@ -19,8 +19,8 @@ export function UserMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className={className}>
-        <Button size="icon" variant="ghost">
-          <Avatar className="rounded-sm">
+        <Button className="flex w-full h-full" size="icon" variant="ghost">
+          <Avatar className="rounded-sm size-10">
             <AvatarImage className="rounded-sm" src={session?.user.image ?? undefined} />
             <AvatarFallback className="rounded-sm">{session?.user.name?.split(' ').map((name) => name[0]).join('')}</AvatarFallback>
           </Avatar>
