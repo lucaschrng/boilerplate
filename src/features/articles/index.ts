@@ -5,5 +5,5 @@ export { CreateArticleForm } from './components/create-article-form';
 export { useCreateArticle } from './hooks/useArticles';
 
 // Export schemas
-export { articleSchema, createArticleSchema } from './schemas/article';
-export type { Article, CreateArticleFormValues } from './schemas/article';
+export { createArticleSchema } from './schemas/article';
+export type { CreateArticleFormValues } from './schemas/article';

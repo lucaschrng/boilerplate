@@ -1,7 +1,7 @@
 import '~/styles/globals.css';
 
 import { type Metadata } from 'next';
-import { Geist } from 'next/font/google';
+import { DM_Serif_Display, Geist } from 'next/font/google';
 
 import Providers from './providers';
 
@@ -21,11 +21,17 @@ const geist = Geist({
   variable: '--font-geist-sans',
 });
 
+const dmSerifDisplay = DM_Serif_Display({
+  subsets: ['latin'],
+  variable: '--font-dm-serif-display',
+  weight: ['400'],
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html className={`${geist.variable}`} lang="en" suppressHydrationWarning>
+    <html className={`${geist.variable} ${dmSerifDisplay.variable}`} lang="en" suppressHydrationWarning>
       <body>
         <Providers>{children}</Providers>
       </body>
