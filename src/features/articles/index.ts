@@ -1,5 +1,7 @@
 // Export components
+export { ArticleCard } from './components/article-card';
 export { CreateArticleForm } from './components/create-article-form';
+export { MyArticlesList } from './components/my-articles-list';
 
 // Export hooks
 export { useCreateArticle } from './hooks/useArticles';

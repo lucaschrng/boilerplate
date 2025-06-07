@@ -2,8 +2,22 @@
 
 import { toast } from 'sonner';
 
-import { useCreateArticle as useCreateArticleHook } from '~/lib/hooks/article';
+import { useSession } from '~/lib/auth-client';
+import { useCreateArticle as useCreateArticleHook, useFindManyArticle as useFindManyArticleHook } from '~/lib/hooks/article';
 
+export const useFindManyArticle = () => {
+  const { data: session } = useSession();
+  return useFindManyArticleHook({
+    orderBy: {
+      updatedAt: 'desc',
+    },
+    where: {
+      authorId: {
+        equals: session?.user.id,
+      },
+    },
+  });
+};
 
 export const useCreateArticle = () => {
   return useCreateArticleHook({

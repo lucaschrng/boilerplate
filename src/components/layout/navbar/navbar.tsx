@@ -11,7 +11,7 @@ export async function Navbar() {
         <Link className="text-lg font-medium" href="/">Boilerplate</Link>
         <div className="flex gap-1">
           <LinkButton href="/" variant="ghost">Articles</LinkButton>
-          <LinkButton href="my-articles" variant="ghost">My Articles</LinkButton>
+          <LinkButton href="/articles/my" variant="ghost">My Articles</LinkButton>
         </div>
       </div>
       <div className="flex items-center p-3.5">
