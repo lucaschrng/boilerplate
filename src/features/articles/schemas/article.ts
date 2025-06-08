@@ -1,10 +1,11 @@
-import { ArticleVisibility } from '@prisma/client';
+import { ArticleStatus, ArticleVisibility } from '@prisma/client';
 import { z } from 'zod';
 
-export const createArticleSchema = z.object({
+export const baseArticleSchema = z.object({
   content: z
     .string()
     .min(10, { message: 'Content must be at least 10 characters long' }),
+  status: z.nativeEnum(ArticleStatus),
   title: z
     .string()
     .min(3, { message: 'Title must be at least 3 characters long' })
@@ -12,4 +13,4 @@ export const createArticleSchema = z.object({
   visibility: z.nativeEnum(ArticleVisibility),
 });
 
-export type CreateArticleFormValues = z.infer<typeof createArticleSchema>;
+export type BaseArticleFormValues = z.infer<typeof baseArticleSchema>;

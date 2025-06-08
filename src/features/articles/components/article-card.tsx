@@ -2,7 +2,7 @@
 
 import { type Article, ArticleStatus, ArticleVisibility } from '@prisma/client';
 import dayjs from 'dayjs';
-import { GlobeIcon, LockIcon, PencilIcon, Trash2Icon } from 'lucide-react';
+import { GlobeIcon, LockIcon, PencilIcon, Trash2Icon, UndoIcon } from 'lucide-react';
 
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
@@ -14,15 +14,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '~/components/ui/tooltip';
-import { useDeleteArticle } from '~/lib/hooks';
 import { cn } from '~/lib/utils/cn';
 
-interface ArticleCardProps {
-  article: Article;
-}
+import { useDeleteArticle, useUnpublishArticle } from '../hooks/useArticles';
 
-export function ArticleCard({ article }: ArticleCardProps) {
+export function ArticleCard({
+  article,
+}: {
+  article: Article;
+}) {
   const { mutate: deleteArticle } = useDeleteArticle();
+  const { mutate: unpublishArticle } = useUnpublishArticle();
 
   return (
     <Card>
@@ -75,19 +77,34 @@ export function ArticleCard({ article }: ArticleCardProps) {
           </Tooltip>
         </TooltipProvider>
 
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <LinkButton href={`/articles/${article.id}/edit`} size="icon">
-                <PencilIcon className="size-4" />
-              </LinkButton>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Edit article</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </CardFooter>
-    </Card>
+        {article.status === ArticleStatus.PUBLISHED ? (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button onClick={() => unpublishArticle(article.id)} size="icon">
+                  <UndoIcon className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Unpublish article</p>
+              </TooltipContent>
+            </Tooltip >
+          </TooltipProvider >
+        ) : (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <LinkButton href={`/articles/${article.id}/edit`} size="icon">
+                  <PencilIcon className="size-4" />
+                </LinkButton>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Edit article</p>
+              </TooltipContent>
+            </Tooltip >
+          </TooltipProvider >
+        )}
+      </CardFooter >
+    </Card >
   );
 }

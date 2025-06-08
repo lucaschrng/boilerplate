@@ -1,11 +1,17 @@
 // Export components
 export { ArticleCard } from './components/article-card';
+export { ArticleFormSkeleton } from './components/article-form-skeleton';
 export { CreateArticleForm } from './components/create-article-form';
 export { MyArticlesList } from './components/my-articles-list';
+export { UpdateArticleForm } from './components/update-article-form';
 
 // Export hooks
-export { useCreateArticle } from './hooks/useArticles';
+export {
+  useCreateArticle,
+  useUnpublishArticle,
+  useUpdateArticle,
+} from './hooks/useArticles';
 
 // Export schemas
-export { createArticleSchema } from './schemas/article';
-export type { CreateArticleFormValues } from './schemas/article';
+export { baseArticleSchema } from './schemas/article';
+export type { BaseArticleFormValues } from './schemas/article';
