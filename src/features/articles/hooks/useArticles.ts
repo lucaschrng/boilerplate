@@ -1,6 +1,6 @@
 'use client';
 
-import { ArticleStatus } from '@prisma/client';
+import { ArticleStatus, ArticleVisibility } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -22,6 +22,23 @@ export const useFindMyArticles = () => {
     where: {
       authorId: {
         equals: session?.user.id,
+      },
+    },
+  });
+};
+
+export const useFindPublishedArticles = () => {
+  return useFindManyArticleHook({
+    include: { author: true },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+    where: {
+      status: {
+        equals: ArticleStatus.PUBLISHED,
+      },
+      visibility: {
+        equals: ArticleVisibility.PUBLIC,
       },
     },
   });

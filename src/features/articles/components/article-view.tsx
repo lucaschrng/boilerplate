@@ -73,7 +73,7 @@ export function ArticleView({
 
       <div className="grid gap-6 pb-18 pt-2">
         <h1 className="text-5xl font-serif">{article.title}</h1>
-        <div className="whitespace-pre-wrap">{article.content}</div>
+        <div className="whitespace-pre-wrap text-justify">{article.content}</div>
       </div>
     </>
   );

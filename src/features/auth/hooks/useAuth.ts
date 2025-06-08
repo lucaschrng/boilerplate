@@ -26,7 +26,7 @@ export function useLogin() {
       },
       onSuccess: () => {
         toast.success('Signed in successfully');
-        router.push('/');
+        router.push('/articles');
       },
     });
   };

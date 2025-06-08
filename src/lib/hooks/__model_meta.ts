@@ -274,6 +274,7 @@ const metadata = {
                     isDataModel: true,
                     backLink: 'articles',
                     isRelationOwner: true,
+                    onDeleteAction: 'Cascade',
                     foreignKeyMapping: { "id": "authorId" },
                 }, categories: {
                     name: "categories",
@@ -326,7 +327,7 @@ const metadata = {
 
     },
     deleteCascade: {
-        user: ['Account', 'Session'],
+        user: ['Account', 'Session', 'Article'],
 
     },
     authModel: 'User'

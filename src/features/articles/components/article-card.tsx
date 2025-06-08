@@ -22,9 +22,11 @@ export type ArticleCardVariant = 'default' | 'myArticles';
 
 export function ArticleCard({
   article,
+  className,
   variant = 'default',
 }: {
   article: { author: User } & Article;
+  className?: string;
   variant?: ArticleCardVariant;
 }) {
   const { mutate: deleteArticle } = useDeleteArticle();
@@ -33,7 +35,7 @@ export function ArticleCard({
   const isMyArticlesView = variant === 'myArticles';
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-serif">
@@ -78,61 +80,59 @@ export function ArticleCard({
           {article.content}
         </p>
       </CardContent>
-      <CardFooter className="flex justify-end gap-2">
-        <LinkButton href={`/articles/${article.id}`}>
-          <LinkIcon className="size-4" />
-          Read article
-        </LinkButton>
-        {isMyArticlesView && (
-          <>
-            <div className="border-l border-foreground/25 h-4/5" />
+      {isMyArticlesView && (
+        <CardFooter className="flex justify-end gap-2">
+          <LinkButton href={`/articles/${article.id}`}>
+            <LinkIcon className="size-4" />
+            See article
+          </LinkButton>
+          <div className="border-l border-foreground/25 h-4/5" />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => deleteArticle({ where: { id: article.id } })}
+                  size="icon"
+                  variant="destructive"
+                >
+                  <Trash2Icon className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Delete article</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          {article.status === ArticleStatus.PUBLISHED ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    onClick={() => deleteArticle({ where: { id: article.id } })}
-                    size="icon"
-                    variant="destructive"
-                  >
-                    <Trash2Icon className="size-4" />
+                  <Button onClick={() => unpublishArticle(article.id)} size="icon">
+                    <UndoIcon className="size-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Delete article</p>
+                  <p>Unpublish article</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-
-            {article.status === ArticleStatus.PUBLISHED ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button onClick={() => unpublishArticle(article.id)} size="icon">
-                      <UndoIcon className="size-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Unpublish article</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <LinkButton href={`/articles/${article.id}/edit`} size="icon">
-                      <PencilIcon className="size-4" />
-                    </LinkButton>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Edit article</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
-          </>
-        )}
-      </CardFooter >
-    </Card>
+          ) : (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <LinkButton href={`/articles/${article.id}/edit`} size="icon">
+                    <PencilIcon className="size-4" />
+                  </LinkButton>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Edit article</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </CardFooter>
+      )}
+    </Card >
   );
 }

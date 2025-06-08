@@ -10,7 +10,7 @@ export async function Navbar() {
       <div className="flex items-center justify-between pl-6 pr-4 py-4 flex-1">
         <Link className="text-lg font-medium" href="/">Boilerplate</Link>
         <div className="flex gap-1">
-          <LinkButton href="/" variant="ghost">Articles</LinkButton>
+          <LinkButton href="/articles" variant="ghost">Articles</LinkButton>
           <LinkButton href="/articles/my" variant="ghost">My Articles</LinkButton>
         </div>
       </div>

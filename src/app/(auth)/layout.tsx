@@ -10,7 +10,7 @@ const Layout: React.FC<PropsWithChildren> = async ({ children }) => {
   });
 
   if (session?.user) {
-    redirect('/');
+    redirect('/articles');
   }
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">

@@ -2,6 +2,7 @@
 export { ArticleCard } from './components/article-card';
 export { ArticleSkeleton } from './components/article-form-skeleton';
 export { ArticleView } from './components/article-view';
+export { ArticlesList } from './components/articles-list';
 export { CreateArticleForm } from './components/create-article-form';
 export { MyArticlesList } from './components/my-articles-list';
 export { UpdateArticleForm } from './components/update-article-form';
@@ -10,6 +11,7 @@ export { UpdateArticleForm } from './components/update-article-form';
 export {
   useCreateArticle,
   useFindMyArticles,
+  useFindPublishedArticles,
   useUnpublishArticle,
   useUpdateArticle,
 } from './hooks/useArticles';
