@@ -1,6 +1,7 @@
 'use client';
 
 import { ArticleStatus } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { useSession } from '~/lib/auth-client';
@@ -11,9 +12,10 @@ import {
   useUpdateArticle as useUpdateArticleHook,
 } from '~/lib/hooks/article';
 
-export const useFindManyArticle = () => {
+export const useFindMyArticles = () => {
   const { data: session } = useSession();
   return useFindManyArticleHook({
+    include: { author: true },
     orderBy: {
       updatedAt: 'desc',
     },
@@ -26,27 +28,31 @@ export const useFindManyArticle = () => {
 };
 
 export const useCreateArticle = () => {
+  const router = useRouter();
   return useCreateArticleHook({
     onError: (error) => {
       toast.error('Failed to create article', {
         description: error.message,
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success('Article created successfully');
+      router.push(`/articles/${data?.id}`);
     },
   });
 };
 
 export const useUpdateArticle = () => {
+  const router = useRouter();
   return useUpdateArticleHook({
     onError: (error) => {
       toast.error('Failed to update article', {
         description: error.message,
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success('Article updated successfully');
+      router.push(`/articles/${data?.id}`);
     },
   });
 };

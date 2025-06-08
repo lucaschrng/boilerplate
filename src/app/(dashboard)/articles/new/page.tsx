@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 export default function NewArticlePage() {
   return (
-    <CreateArticleForm />
+    <div className="space-y-6">
+      <div className="flex items-baseline gap-2 rounded-lg px-3 py-1">
+        <h1 className="text-2xl font-serif">New Article</h1>
+        <div className="border-b border-muted-foreground flex-1" />
+      </div>
+      <CreateArticleForm />
+    </div>
   );
 }

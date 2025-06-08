@@ -3,16 +3,20 @@
 import { use } from 'react';
 
 import { NotFound } from '~/components/ui/not-found';
-import { ArticleSkeleton, UpdateArticleForm } from '~/features/articles';
+import { ArticleSkeleton } from '~/features/articles';
+import { ArticleView } from '~/features/articles/components/article-view';
 import { useFindUniqueArticle } from '~/lib/hooks';
 
-export default function EditArticlePage({
+export default function ArticlePage({
   params,
 }: {
   params: Promise<{ articleId: string }>;
 }) {
   const resolvedParams = use(params);
-  const { data: article, isLoading } = useFindUniqueArticle({ where: { id: resolvedParams.articleId } });
+  const { data: article, isLoading } = useFindUniqueArticle({
+    include: { author: true },
+    where: { id: resolvedParams.articleId },
+  });
 
   if (isLoading) return <ArticleSkeleton />;
   if (!article) return (
@@ -26,13 +30,5 @@ export default function EditArticlePage({
     />
   );
 
-  return (
-    <div className="space-y-6">
-      <div className="flex items-baseline gap-2 rounded-lg px-3 py-1">
-        <h1 className="text-2xl font-serif">Edit Article</h1>
-        <div className="border-b border-muted-foreground flex-1" />
-      </div>
-      <UpdateArticleForm article={article} />
-    </div>
-  );
+  return <ArticleView article={article} />;
 }

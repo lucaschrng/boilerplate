@@ -6,11 +6,11 @@ import { Card, CardContent, CardFooter, CardHeader } from '~/components/ui/card'
 import LinkButton from '~/components/ui/link-button';
 import { Skeleton } from '~/components/ui/skeleton';
 
-import { useFindManyArticle } from '../hooks/useArticles';
+import { useFindMyArticles } from '../hooks/useArticles';
 import { ArticleCard } from './article-card';
 
 export function MyArticlesList() {
-  const { data: articles, isLoading } = useFindManyArticle();
+  const { data: articles, isLoading } = useFindMyArticles();
 
   if (isLoading) {
     return <ArticleListSkeleton />;
@@ -22,9 +22,9 @@ export function MyArticlesList() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-3">
         <h1 className="text-3xl font-serif">My Articles</h1>
-        <LinkButton href="/articles/new">
+        <LinkButton href="/articles/new" size="sm">
           <PencilIcon className="size-4" />
           New Article
         </LinkButton>
@@ -32,7 +32,7 @@ export function MyArticlesList() {
 
       <div className="grid gap-4">
         {articles.map((article) => (
-          <ArticleCard article={article} key={article.id} />
+          <ArticleCard article={article} key={article.id} variant="myArticles" />
         ))}
       </div>
     </div>
@@ -75,10 +75,10 @@ function ArticleListSkeleton() {
 function EmptyArticleList() {
   return (
     <div className="flex flex-col items-center justify-center py-12">
-      <h2 className="text-2xl font-serif mb-2">No articles yet</h2>
+      <h2 className="text-3xl font-serif mb-2">No articles yet</h2>
       <p className="text-muted-foreground mb-6">Start creating your first article</p>
       <LinkButton href="/articles/new">
-        <PencilIcon className="size-4 mr-2" />
+        <PencilIcon className="size-4" />
         Create Article
       </LinkButton>
     </div>

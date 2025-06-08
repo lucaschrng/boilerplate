@@ -16,7 +16,7 @@ const Layout: React.FC<PropsWithChildren> = async ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="p-6">
+      <main className="p-12">
         <div className="w-full max-w-2xl mx-auto">
           {children}
         </div>

@@ -1,8 +1,8 @@
 'use client';
 
-import { type Article, ArticleStatus, ArticleVisibility } from '@prisma/client';
+import { type Article, ArticleStatus, ArticleVisibility, type User } from '@prisma/client';
 import dayjs from 'dayjs';
-import { GlobeIcon, LockIcon, PencilIcon, Trash2Icon, UndoIcon } from 'lucide-react';
+import { GlobeIcon, LinkIcon, LockIcon, PencilIcon, Trash2Icon, UndoIcon } from 'lucide-react';
 
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
@@ -18,41 +18,56 @@ import { cn } from '~/lib/utils/cn';
 
 import { useDeleteArticle, useUnpublishArticle } from '../hooks/useArticles';
 
+export type ArticleCardVariant = 'default' | 'myArticles';
+
 export function ArticleCard({
   article,
+  variant = 'default',
 }: {
-  article: Article;
+  article: { author: User } & Article;
+  variant?: ArticleCardVariant;
 }) {
   const { mutate: deleteArticle } = useDeleteArticle();
   const { mutate: unpublishArticle } = useUnpublishArticle();
+
+  const isMyArticlesView = variant === 'myArticles';
 
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-serif">{article.title}</CardTitle>
-          <div className="flex items-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  {article.visibility === ArticleVisibility.PUBLIC ? (
-                    <GlobeIcon className="size-4 text-muted-foreground" />
-                  ) : (
-                    <LockIcon className="size-4 text-muted-foreground" />
-                  )}
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{article.visibility === ArticleVisibility.PUBLIC ? 'Public article' : 'Private article'}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <Badge
-              className={cn(article.status === ArticleStatus.PUBLISHED && 'bg-blue-500 text-white')}
-              variant={article.status === ArticleStatus.PUBLISHED ? 'default' : 'secondary'}
-            >
-              {article.status === ArticleStatus.PUBLISHED ? 'Published' : 'Draft'}
-            </Badge>
-          </div>
+          <CardTitle className="text-xl font-serif">
+            {article.title}
+          </CardTitle>
+
+          {isMyArticlesView ? (
+            <div className="flex items-center gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    {article.visibility === ArticleVisibility.PUBLIC ? (
+                      <GlobeIcon className="size-4 text-muted-foreground" />
+                    ) : (
+                      <LockIcon className="size-4 text-muted-foreground" />
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{article.visibility === ArticleVisibility.PUBLIC ? 'Public article' : 'Private article'}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <Badge
+                className={cn(article.status === ArticleStatus.PUBLISHED && 'bg-blue-500 text-white')}
+                variant={article.status === ArticleStatus.PUBLISHED ? 'default' : 'secondary'}
+              >
+                {article.status === ArticleStatus.PUBLISHED ? 'Published' : 'Draft'}
+              </Badge>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Written by <span className="font-semibold text-foreground">{article.author.name}</span>
+            </p>
+          )}
         </div>
         <CardDescription>
           {dayjs(article.updatedAt).format('MMM D, YYYY')}
@@ -64,47 +79,60 @@ export function ArticleCard({
         </p>
       </CardContent>
       <CardFooter className="flex justify-end gap-2">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button onClick={() => deleteArticle({ where: { id: article.id } })} size="icon" variant="outline">
-                <Trash2Icon className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Delete article</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <LinkButton href={`/articles/${article.id}`}>
+          <LinkIcon className="size-4" />
+          Read article
+        </LinkButton>
+        {isMyArticlesView && (
+          <>
+            <div className="border-l border-foreground/25 h-4/5" />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={() => deleteArticle({ where: { id: article.id } })}
+                    size="icon"
+                    variant="destructive"
+                  >
+                    <Trash2Icon className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Delete article</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-        {article.status === ArticleStatus.PUBLISHED ? (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button onClick={() => unpublishArticle(article.id)} size="icon">
-                  <UndoIcon className="size-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Unpublish article</p>
-              </TooltipContent>
-            </Tooltip >
-          </TooltipProvider >
-        ) : (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <LinkButton href={`/articles/${article.id}/edit`} size="icon">
-                  <PencilIcon className="size-4" />
-                </LinkButton>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Edit article</p>
-              </TooltipContent>
-            </Tooltip >
-          </TooltipProvider >
+            {article.status === ArticleStatus.PUBLISHED ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button onClick={() => unpublishArticle(article.id)} size="icon">
+                      <UndoIcon className="size-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Unpublish article</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <LinkButton href={`/articles/${article.id}/edit`} size="icon">
+                      <PencilIcon className="size-4" />
+                    </LinkButton>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Edit article</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </>
         )}
       </CardFooter >
-    </Card >
+    </Card>
   );
 }

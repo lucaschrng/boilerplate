@@ -95,7 +95,7 @@ export function ArticleFormBase({
                   <Textarea
                     autoFocus
                     autosize
-                    className="!bg-transparent border-none !ring-0 p-0 shadow-none !text-5xl font-serif"
+                    className="!bg-transparent border-none !ring-0 p-0 shadow-none !text-5xl font-serif rounded-none"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
@@ -117,7 +117,7 @@ export function ArticleFormBase({
                 <FormControl>
                   <Textarea
                     autosize
-                    className="!bg-transparent border-none !ring-0 p-0 shadow-none"
+                    className="!bg-transparent border-none !ring-0 p-0 shadow-none rounded-none"
                     placeholder="Write your article content here..."
                     {...field}
                   />
