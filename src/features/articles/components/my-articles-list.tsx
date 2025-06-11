@@ -1,6 +1,7 @@
 'use client';
 
 import { PencilIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Card, CardContent, CardFooter, CardHeader } from '~/components/ui/card';
 import LinkButton from '~/components/ui/link-button';
@@ -10,6 +11,7 @@ import { useFindMyArticles } from '../hooks/useArticles';
 import { ArticleCard } from './article-card';
 
 export function MyArticlesList() {
+  const t = useTranslations();
   const { data: articles, isLoading } = useFindMyArticles();
 
   if (isLoading) {
@@ -23,10 +25,10 @@ export function MyArticlesList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between px-3">
-        <h1 className="text-3xl font-serif">My Articles</h1>
+        <h1 className="text-3xl font-serif">{t('articles.my-list.title')}</h1>
         <LinkButton href="/articles/new" size="sm">
           <PencilIcon className="size-4" />
-          New Article
+          {t('articles.my-list.new')}
         </LinkButton>
       </div>
 
@@ -73,13 +75,14 @@ function ArticleListSkeleton() {
 }
 
 function EmptyArticleList() {
+  const t = useTranslations();
   return (
     <div className="flex flex-col items-center justify-center py-12">
-      <h2 className="text-3xl font-serif mb-2">No articles yet</h2>
-      <p className="text-muted-foreground mb-6">Start creating your first article</p>
+      <h2 className="text-3xl font-serif mb-2">{t('articles.my-list.empty.title')}</h2>
+      <p className="text-muted-foreground mb-6">{t('articles.my-list.empty.description')}</p>
       <LinkButton href="/articles/new">
         <PencilIcon className="size-4" />
-        Create Article
+        {t('articles.my-list.empty.create')}
       </LinkButton>
     </div>
   );

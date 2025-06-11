@@ -4,8 +4,8 @@ export { SignupForm } from './components/signup-form';
 
 // Export hooks
 export { useLogin, useSignup } from './hooks/useAuth';
-export { useSignOut } from './hooks/useSignOut';
+export { useLogout } from './hooks/useSignOut';
 
 // Export schemas
-export { loginSchema, signupSchema } from './schemas/auth';
+export { createLoginSchema, createSignupSchema } from './schemas/auth';
 export type { LoginFormValues, SignupFormValues } from './schemas/auth';

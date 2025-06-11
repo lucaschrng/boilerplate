@@ -1,6 +1,7 @@
 'use client';
 
 import { ArticleStatus, ArticleVisibility } from '@prisma/client';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -45,57 +46,61 @@ export const useFindPublishedArticles = () => {
 };
 
 export const useCreateArticle = () => {
+  const t = useTranslations();
   const router = useRouter();
   return useCreateArticleHook({
     onError: (error) => {
-      toast.error('Failed to create article', {
+      toast.error(t('common.result.error.create', { entity: t('common.entities.article').toLowerCase() }), {
         description: error.message,
       });
     },
     onSuccess: (data) => {
-      toast.success('Article created successfully');
+      toast.success(t('common.result.success.create', { entity: t('common.entities.article') }));
       router.push(`/articles/${data?.id}`);
     },
   });
 };
 
 export const useUpdateArticle = () => {
+  const t = useTranslations();
   const router = useRouter();
   return useUpdateArticleHook({
     onError: (error) => {
-      toast.error('Failed to update article', {
+      toast.error(t('common.result.error.update', { entity: t('common.entities.article').toLowerCase() }), {
         description: error.message,
       });
     },
     onSuccess: (data) => {
-      toast.success('Article updated successfully');
+      toast.success(t('common.result.success.update', { entity: t('common.entities.article') }));
       router.push(`/articles/${data?.id}`);
     },
   });
 };
 
 export const useDeleteArticle = () => {
+  const t = useTranslations();
   return useDeleteArticleHook({
     onError: (error) => {
-      toast.error('Failed to delete article', {
+      toast.error(t('common.result.error.delete', { entity: t('common.entities.article').toLowerCase() }), {
         description: error.message,
       });
     },
     onSuccess: () => {
-      toast.success('Article deleted successfully');
+      toast.success(t('common.result.success.delete', { entity: t('common.entities.article') }));
     },
   });
 };
 
 export const useUnpublishArticle = () => {
+  const t = useTranslations();
   const { mutate, mutateAsync, ...rest } = useUpdateArticleHook({
     onError: (error) => {
-      toast.error('Failed to unpublish article', {
+      toast.error(t('common.result.error.unpublish', { entity: t('common.entities.article').toLowerCase() }), {
         description: error.message,
       });
     },
     onSuccess: () => {
-      toast.success('Article unpublished successfully');
+      toast.success(t('common.result.success.unpublish', { entity: t('common.entities.article') }));
     },
   });
 

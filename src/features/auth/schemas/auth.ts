@@ -1,15 +1,16 @@
 import { z } from 'zod';
 
-export const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+export const createLoginSchema = (t: (key: string) => string) => z.object({
+  email: z.string().email(t('common.validation.email')),
+  password: z.string().min(8, t('common.validation.password-min-length')),
 });
 
-export const signupSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  name: z.string().min(3, 'Name must be at least 3 characters'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+export const createSignupSchema = (t: (key: string) => string) => z.object({
+  email: z.string().email(t('common.validation.email')),
+  name: z.string().min(3, t('common.validation.name-min-length')),
+  password: z.string().min(8, t('common.validation.password-min-length')),
 });
 
-export type LoginFormValues = z.infer<typeof loginSchema>;
-export type SignupFormValues = z.infer<typeof signupSchema>;
+// Type definitions remain the same
+export type LoginFormValues = z.infer<ReturnType<typeof createLoginSchema>>;
+export type SignupFormValues = z.infer<ReturnType<typeof createSignupSchema>>;

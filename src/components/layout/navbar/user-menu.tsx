@@ -1,11 +1,12 @@
 'use client';
 
 import { LogOutIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button } from '~/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '~/components/ui/dropdown-menu';
-import { useSignOut } from '~/features/auth';
+import { useLogout } from '~/features/auth';
 import { useSession } from '~/lib/auth-client';
 
 export function UserMenu({
@@ -13,8 +14,9 @@ export function UserMenu({
 }: {
   className?: string;
 }) {
+  const t = useTranslations();
   const { data: session } = useSession();
-  const { logout } = useSignOut();
+  const { logout } = useLogout();
 
   return (
     <DropdownMenu>
@@ -40,16 +42,9 @@ export function UserMenu({
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          Settings
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logout}>
           <LogOutIcon className="mr-2 h-4 w-4" />
-          Sign out
+          {t('common.actions.logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu >

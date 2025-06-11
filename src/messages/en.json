@@ -1,0 +1,124 @@
+{
+  "common": {
+    "entities": {
+      "article": "Article",
+      "account": "Account"
+    },
+    "status": {
+      "published": "Published",
+      "draft": "Draft"
+    },
+    "visibility": {
+      "public": "Public",
+      "private": "Private"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "create": "Create",
+      "view": "View",
+      "save": "Save",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "login": "Login",
+      "signup": "Sign Up",
+      "logout": "Logout"
+    },
+    "form": {
+      "email": "Email",
+      "password": "Password",
+      "name": "Full Name"
+    },
+    "result": {
+      "success": {
+        "create": "{entity} created successfully",
+        "update": "{entity} updated successfully",
+        "delete": "{entity} deleted successfully",
+        "unpublish": "{entity} unpublished successfully",
+        "login": "Logged in successfully",
+        "logout": "Logged out successfully",
+        "signup": "Account created successfully"
+      },
+      "error": {
+        "create": "Failed to create {entity}",
+        "update": "Failed to update {entity}",
+        "delete": "Failed to delete {entity}",
+        "unpublish": "Failed to unpublish {entity}",
+        "login": "Failed to login",
+        "logout": "Failed to sign out",
+        "signup": "Failed to sign up",
+        "unknown": "An unknown error occurred",
+        "invalid-credentials": "Invalid email or password",
+        "user-exists": "An account with that email already exists"
+      }
+    },
+    "validation": {
+      "email": "Please enter a valid email address",
+      "password-min-length": "Password must be at least 8 characters",
+      "name-min-length": "Name must be at least 3 characters"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "description": "Enter your email and password to login to your account",
+      "submit": "Login",
+      "with-google": "Login with Google",
+      "no-account": "Don't have an account?"
+    },
+    "signup": {
+      "title": "Sign Up",
+      "description": "Enter your email and choose a password to create an account",
+      "submit": "Sign Up",
+      "with-google": "Login with Google",
+      "has-account": "Already have an account?"
+    }
+  },
+  "articles": {
+    "card": {
+      "see": "See article",
+      "delete": "Delete article",
+      "unpublish": "Unpublish article",
+      "edit": "Edit article"
+    },
+    "form": {
+      "save-draft": "Save draft",
+      "publish": "Publish",
+      "title-placeholder": "Title",
+      "content-placeholder": "Write your article content here..."
+    },
+    "view": {
+      "written-by": "Written by",
+      "last-updated": "Last updated {date}"
+    },
+    "list": {
+      "title": "Articles",
+      "empty": {
+        "title": "No articles yet",
+        "description": "Be the first to publish an article",
+        "create": "Create Article"
+      }
+    },
+    "my-list": {
+      "title": "My Articles",
+      "new": "New Article",
+      "empty": {
+        "title": "No articles yet",
+        "description": "Publish your first article",
+        "create": "Create Article"
+      }
+    },
+    "new": {
+      "title": "New Article"
+    },
+    "edit": {
+      "title": "Edit Article"
+    }
+  },
+  "layout": {
+    "navbar": {
+      "articles": "Articles",
+      "my-articles": "My Articles"
+    }
+  }
+}

@@ -3,6 +3,7 @@
 import { type Article, ArticleStatus, ArticleVisibility, type User } from '@prisma/client';
 import dayjs from 'dayjs';
 import { GlobeIcon, LinkIcon, LockIcon, PencilIcon, Trash2Icon, UndoIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
@@ -29,6 +30,7 @@ export function ArticleCard({
   className?: string;
   variant?: ArticleCardVariant;
 }) {
+  const t = useTranslations();
   const { mutate: deleteArticle } = useDeleteArticle();
   const { mutate: unpublishArticle } = useUnpublishArticle();
 
@@ -54,7 +56,7 @@ export function ArticleCard({
                     )}
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{article.visibility === ArticleVisibility.PUBLIC ? 'Public article' : 'Private article'}</p>
+                    <p>{article.visibility === ArticleVisibility.PUBLIC ? t('common.visibility.public') : t('common.visibility.private')}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -62,7 +64,7 @@ export function ArticleCard({
                 className={cn(article.status === ArticleStatus.PUBLISHED && 'bg-blue-500 text-white')}
                 variant={article.status === ArticleStatus.PUBLISHED ? 'default' : 'secondary'}
               >
-                {article.status === ArticleStatus.PUBLISHED ? 'Published' : 'Draft'}
+                {article.status === ArticleStatus.PUBLISHED ? t('common.status.published') : t('common.status.draft')}
               </Badge>
             </div>
           ) : (
@@ -84,7 +86,7 @@ export function ArticleCard({
         <CardFooter className="flex justify-end gap-2">
           <LinkButton href={`/articles/${article.id}`}>
             <LinkIcon className="size-4" />
-            See article
+            {t('articles.card.see')}
           </LinkButton>
           <div className="border-l border-foreground/25 h-4/5" />
           <TooltipProvider>
@@ -99,7 +101,7 @@ export function ArticleCard({
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Delete article</p>
+                <p>{t('articles.card.delete')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -113,7 +115,7 @@ export function ArticleCard({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Unpublish article</p>
+                  <p>{t('articles.card.unpublish')}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -126,7 +128,7 @@ export function ArticleCard({
                   </LinkButton>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Edit article</p>
+                  <p>{t('articles.card.edit')}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

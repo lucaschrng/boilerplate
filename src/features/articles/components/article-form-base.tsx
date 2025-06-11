@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArticleStatus, ArticleVisibility } from '@prisma/client';
 import { GlobeIcon, LockIcon, SaveIcon, SendIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '~/components/ui/button';
@@ -21,6 +22,7 @@ export function ArticleFormBase({
   isPending: boolean
   onSubmit: (values: BaseArticleFormValues) => void
 }) {
+  const t = useTranslations();
   const form = useForm<BaseArticleFormValues>({
     defaultValues,
     resolver: zodResolver(baseArticleSchema),
@@ -52,8 +54,8 @@ export function ArticleFormBase({
                         <SelectValue placeholder="Select visibility" />
                       </SelectTrigger>
                       < SelectContent >
-                        <SelectItem value={ArticleVisibility.PUBLIC}> <GlobeIcon className="size-4" /> Public </SelectItem>
-                        <SelectItem value={ArticleVisibility.PRIVATE} > <LockIcon className="size-4" /> Private </SelectItem>
+                        <SelectItem value={ArticleVisibility.PUBLIC}> <GlobeIcon className="size-4" /> {t('common.visibility.public')} </SelectItem>
+                        <SelectItem value={ArticleVisibility.PRIVATE} > <LockIcon className="size-4" /> {t('common.visibility.private')} </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -71,7 +73,7 @@ export function ArticleFormBase({
                 variant="secondary"
               >
                 <SaveIcon className="size-4" />
-                Save draft
+                {t('articles.form.save-draft')}
               </Button>
               < Button
                 disabled={isPending}
@@ -80,7 +82,7 @@ export function ArticleFormBase({
                 type="button"
               >
                 <SendIcon className="size-4" />
-                Publish
+                {t('common.actions.publish')}
               </Button>
             </div>
           </div>
@@ -101,7 +103,7 @@ export function ArticleFormBase({
                         e.preventDefault();
                       }
                     }}
-                    placeholder="Title"
+                    placeholder={t('articles.form.title-placeholder')}
                     {...field}
                   />
                 </FormControl>
@@ -118,7 +120,7 @@ export function ArticleFormBase({
                   <Textarea
                     autosize
                     className="!bg-transparent border-none !ring-0 p-0 shadow-none rounded-none"
-                    placeholder="Write your article content here..."
+                    placeholder={t('articles.form.content-placeholder')}
                     {...field}
                   />
                 </FormControl>

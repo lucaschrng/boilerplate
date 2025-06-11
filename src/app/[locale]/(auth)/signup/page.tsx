@@ -1,5 +1,3 @@
-'use client';
-
 import type { NextPage } from 'next';
 
 import { SignupForm } from '~/features/auth';

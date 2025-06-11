@@ -3,6 +3,7 @@
 import { type Article, ArticleStatus, ArticleVisibility, type User } from '@prisma/client';
 import dayjs from 'dayjs';
 import { GlobeIcon, LockIcon, PencilIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Badge } from '~/components/ui/badge';
 import LinkButton from '~/components/ui/link-button';
@@ -20,6 +21,7 @@ export function ArticleView({
 }: {
   article: { author: User } & Article;
 }) {
+  const t = useTranslations();
   const { data: session } = useSession();
   const isAuthor = session?.user.id === article.author.id;
 
@@ -39,7 +41,7 @@ export function ArticleView({
                     )}
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{article.visibility === ArticleVisibility.PUBLIC ? 'Public article' : 'Private article'}</p>
+                    <p>{article.visibility === ArticleVisibility.PUBLIC ? t('common.visibility.public') : t('common.visibility.private')}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -48,24 +50,24 @@ export function ArticleView({
                 className={cn(article.status === ArticleStatus.PUBLISHED && 'bg-blue-500 text-white')}
                 variant={article.status === ArticleStatus.PUBLISHED ? 'default' : 'secondary'}
               >
-                {article.status === ArticleStatus.PUBLISHED ? 'Published' : 'Draft'}
+                {article.status === ArticleStatus.PUBLISHED ? t('common.status.published') : t('common.status.draft')}
               </Badge>
             </>
           ) : (
             <p className="text-sm text-muted-foreground">
-              Written by <span className="font-semibold text-foreground">{article.author.name}</span>
+              {t('articles.view.written-by')} <span className="font-semibold text-foreground">{article.author.name}</span>
             </p>
           )}
         </div>
 
         <div className="flex items-center gap-4">
           <span className="text-sm text-muted-foreground">
-            Last updated {dayjs(article.updatedAt).format('MMM D, YYYY')}
+            {t('articles.view.last-updated', { date: dayjs(article.updatedAt).format('MMM D, YYYY') })}
           </span>
           {isAuthor && (
             <LinkButton href={`/articles/${article.id}/edit`} size="sm">
               <PencilIcon className="size-4 mr-1" />
-              Edit
+              {t('common.actions.edit')}
             </LinkButton>
           )}
         </div>

@@ -1,20 +1,24 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '~/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader } from '~/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
+import { Link } from '~/lib/i18n/navigation';
 
 import { useLogin } from '../hooks/useAuth';
-import { type LoginFormValues, loginSchema } from '../schemas/auth';
+import { createLoginSchema, type LoginFormValues } from '../schemas/auth';
 
 export function LoginForm() {
+  const t = useTranslations();
+
   const { isPending, login } = useLogin();
 
+  const loginSchema = createLoginSchema(t);
   const form = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
@@ -30,9 +34,9 @@ export function LoginForm() {
   return (
     <Card className="mx-auto w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign In</CardTitle>
+        <h1 className="text-2xl font-bold">{t('auth.login.title')}</h1>
         <CardDescription>
-          Enter your email and password to sign in to your account
+          {t('auth.login.description')}
         </CardDescription>
       </CardHeader>
       <Form {...form}>
@@ -44,7 +48,7 @@ export function LoginForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{t('common.form.email')}</FormLabel>
                     <FormControl>
                       <Input placeholder="john@example.com" {...field} />
                     </FormControl>
@@ -57,7 +61,7 @@ export function LoginForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t('common.form.password')}</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -66,16 +70,16 @@ export function LoginForm() {
                 )}
               />
               <Button className="w-full" isLoading={isPending} type="submit">
-                Sign In
+                {t('auth.login.submit')}
               </Button>
               <Button className="w-full" disabled variant="outline">
-                Sign in with Google
+                {t('auth.login.with-google')}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{' '}
+              {t('auth.login.no-account')}{' '}
               <Link className="underline" href="/signup">
-                Sign Up
+                {t('common.actions.signup')}
               </Link>
             </div>
           </CardContent>

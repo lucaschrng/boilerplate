@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { use } from 'react';
 
 import { NotFound } from '~/components/ui/not-found';
@@ -11,6 +12,7 @@ export default function EditArticlePage({
 }: {
   params: Promise<{ articleId: string }>;
 }) {
+  const t = useTranslations('articles.edit');
   const resolvedParams = use(params);
   const { data: article, isLoading } = useFindUniqueArticle({ where: { id: resolvedParams.articleId } });
 
@@ -29,7 +31,7 @@ export default function EditArticlePage({
   return (
     <div className="space-y-6">
       <div className="flex items-baseline gap-2 rounded-lg px-3 py-1">
-        <h1 className="text-2xl font-serif">Edit Article</h1>
+        <h1 className="text-2xl font-serif">{t('title')}</h1>
         <div className="border-b border-muted-foreground flex-1" />
       </div>
       <UpdateArticleForm article={article} />

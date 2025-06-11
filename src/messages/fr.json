@@ -1,0 +1,124 @@
+{
+  "common": {
+    "entities": {
+      "article": "Article",
+      "account": "Compte"
+    },
+    "status": {
+      "published": "Publié",
+      "draft": "Brouillon"
+    },
+    "visibility": {
+      "public": "Publique",
+      "private": "Privé"
+    },
+    "actions": {
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "create": "Créer",
+      "view": "Voir",
+      "save": "Sauvegarder",
+      "publish": "Publier",
+      "unpublish": "Dépublier",
+      "login": "Se connecter",
+      "signup": "S'inscrire",
+      "logout": "Déconnexion"
+    },
+    "form": {
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "name": "Nom et prénom"
+    },
+    "result": {
+      "success": {
+        "create": "{entity, lowercase} créé avec succès",
+        "update": "{entity} mis à jour avec succès",
+        "delete": "{entity} supprimé avec succès",
+        "unpublish": "{entity} dépublié avec succès",
+        "login": "Connexion réussie",
+        "logout": "Déconnecté avec succès",
+        "signup": "Compte créé avec succès"
+      },
+      "error": {
+        "create": "Échec de la création de {entity}",
+        "update": "Échec de la mise à jour de {entity}",
+        "delete": "Échec de la suppression de {entity}",
+        "unpublish": "Échec de la dépublication de {entity}",
+        "login": "Échec de la connexion",
+        "logout": "Échec de la déconnexion",
+        "signup": "Échec de l'inscription",
+        "unknown": "Une erreur inconnue est survenue",
+        "invalid-credentials": "E-mail ou mot de passe non valide",
+        "user-exists": "Un compte avec cet e-mail existe déjà"
+      }
+    },
+    "validation": {
+      "email": "Veuillez entrer une adresse e-mail valide",
+      "password-min-length": "Le mot de passe doit comporter au moins 8 caractères",
+      "name-min-length": "Le nom doit comporter au moins 3 caractères"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Se connecter",
+      "description": "Entrez votre e-mail et votre mot de passe pour vous connecter à votre compte",
+      "submit": "Se connecter",
+      "with-google": "Se connecter avec Google",
+      "no-account": "Vous n'avez pas de compte ?"
+    },
+    "signup": {
+      "title": "S'inscrire",
+      "description": "Entrez votre e-mail et choisissez un mot de passe pour créer un compte",
+      "submit": "S'inscrire",
+      "with-google": "Se connecter avec Google",
+      "has-account": "Vous avez déjà un compte ?"
+    }
+  },
+  "articles": {
+    "card": {
+      "see": "Voir l'article",
+      "delete": "Supprimer l'article",
+      "unpublish": "Dépublier l'article",
+      "edit": "Modifier l'article"
+    },
+    "form": {
+      "save-draft": "Sauvegarder le brouillon",
+      "publish": "Publier",
+      "title-placeholder": "Titre",
+      "content-placeholder": "Écrivez le contenu de votre article ici..."
+    },
+    "view": {
+      "written-by": "Écrit par",
+      "last-updated": "Dernière mise à jour le {date}"
+    },
+    "list": {
+      "title": "Articles",
+      "empty": {
+        "title": "Pas encore d'articles",
+        "description": "Soyez le premier à publier un article",
+        "create": "Créer un article"
+      }
+    },
+    "my-list": {
+      "title": "Mes articles",
+      "new": "Nouvel article",
+      "empty": {
+        "title": "Pas encore d'articles",
+        "description": "Publiez votre premier article",
+        "create": "Créer un article"
+      }
+    },
+    "new": {
+      "title": "Nouvel article"
+    },
+    "edit": {
+      "title": "Modifier l'article"
+    }
+  },
+  "layout": {
+    "navbar": {
+      "articles": "Articles",
+      "my-articles": "Mes articles"
+    }
+  }
+}

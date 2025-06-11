@@ -1,20 +1,23 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
+import { Link } from '~/lib/i18n/navigation';
 
 import { useSignup } from '../hooks/useAuth';
-import { type SignupFormValues, signupSchema } from '../schemas/auth';
+import { createSignupSchema, type SignupFormValues } from '../schemas/auth';
 
 export function SignupForm() {
+  const t = useTranslations();
   const { isPending, signup } = useSignup();
 
+  const signupSchema = createSignupSchema(t);
   const form = useForm<SignupFormValues>({
     defaultValues: {
       email: '',
@@ -31,9 +34,9 @@ export function SignupForm() {
   return (
     <Card className="mx-auto w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign Up</CardTitle>
+        <CardTitle className="text-2xl">{t('auth.signup.title')}</CardTitle>
         <CardDescription>
-          Enter your email and choose a password to create an account
+          {t('auth.signup.description')}
         </CardDescription>
       </CardHeader>
       <Form {...form}>
@@ -45,7 +48,7 @@ export function SignupForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>{t('common.form.name')}</FormLabel>
                     <FormControl>
                       <Input placeholder="John Doe" {...field} />
                     </FormControl>
@@ -58,7 +61,7 @@ export function SignupForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{t('common.form.email')}</FormLabel>
                     <FormControl>
                       <Input placeholder="john@example.com" {...field} />
                     </FormControl>
@@ -71,7 +74,7 @@ export function SignupForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t('common.form.password')}</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -80,16 +83,16 @@ export function SignupForm() {
                 )}
               />
               <Button className="w-full" isLoading={isPending} type="submit">
-                Sign Up
+                {t('auth.signup.submit')}
               </Button>
               <Button className="w-full" disabled variant="outline">
-                Sign up with Google
+                {t('auth.signup.with-google')}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Already have an account?{' '}
+              {t('auth.signup.has-account')}{' '}
               <Link className="underline" href="/login">
-                Login
+                {t('common.actions.login')}
               </Link>
             </div>
           </CardContent>

@@ -1,12 +1,16 @@
+'use client';
+
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { signIn, signUp } from '~/lib/auth-client';
+import { useRouter } from '~/lib/i18n/navigation';
 
 import type { LoginFormValues, SignupFormValues } from '../schemas/auth';
 
 export function useLogin() {
+  const t = useTranslations();
   const router = useRouter();
 
   const loginFn = async (values: LoginFormValues) => {
@@ -15,17 +19,17 @@ export function useLogin() {
     return signIn.email({ email, password }, {
       onError: (error) => {
         if (error.error.code === 'INVALID_CREDENTIALS') {
-          toast.error('Failed to sign in', {
-            description: 'Invalid email or password',
+          toast.error(t('common.result.error.login'), {
+            description: t('common.result.error.invalid-credentials'),
           });
         } else {
-          toast.error('Failed to sign in', {
-            description: 'An unknown error occurred',
+          toast.error(t('common.result.error.login'), {
+            description: t('common.result.error.unknown'),
           });
         }
       },
       onSuccess: () => {
-        toast.success('Signed in successfully');
+        toast.success(t('common.result.success.login'));
         router.push('/articles');
       },
     });
@@ -37,6 +41,7 @@ export function useLogin() {
 }
 
 export function useSignup() {
+  const t = useTranslations();
   const router = useRouter();
 
   const signupFn = async (values: SignupFormValues) => {
@@ -45,17 +50,17 @@ export function useSignup() {
     return signUp.email({ email, name, password }, {
       onError: (error) => {
         if (error.error.code === 'USER_ALREADY_EXISTS') {
-          toast.error('Failed to sign up', {
-            description: 'An account with that email already exists',
+          toast.error(t('common.result.error.signup'), {
+            description: t('common.result.error.user-exists'),
           });
         } else {
-          toast.error('Failed to sign up', {
-            description: 'An unknown error occurred',
+          toast.error(t('common.result.error.signup'), {
+            description: t('common.result.error.unknown'),
           });
         }
       },
       onSuccess: () => {
-        toast.success('Account created successfully');
+        toast.success(t('common.result.success.signup'));
         router.push('/login');
       },
     });

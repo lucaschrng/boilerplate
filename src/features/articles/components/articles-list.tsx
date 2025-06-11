@@ -1,6 +1,7 @@
 'use client';
 
 import { PlusIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import LinkButton from '~/components/ui/link-button';
@@ -10,6 +11,7 @@ import { useFindPublishedArticles } from '../hooks/useArticles';
 import { ArticleCard } from './article-card';
 
 export function ArticlesList() {
+  const t = useTranslations();
   const { data: articles, isLoading } = useFindPublishedArticles();
 
   if (isLoading) {
@@ -23,7 +25,7 @@ export function ArticlesList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between px-3">
-        <h1 className="text-3xl font-serif">Articles</h1>
+        <h1 className="text-3xl font-serif">{t('articles.list.title')}</h1>
       </div>
 
       <div className="grid gap-4">
@@ -69,13 +71,14 @@ function ArticleListSkeleton() {
 }
 
 function EmptyArticleList() {
+  const t = useTranslations();
   return (
     <div className="flex flex-col items-center justify-center py-12">
-      <h2 className="text-3xl font-serif mb-2">No articles yet</h2>
-      <p className="text-muted-foreground mb-6">Be the first to publish an article</p>
+      <h2 className="text-3xl font-serif mb-2">{t('articles.list.empty.title')}</h2>
+      <p className="text-muted-foreground mb-6">{t('articles.list.empty.description')}</p>
       <LinkButton href="/articles/new">
         <PlusIcon className="size-4" />
-        Create Article
+        {t('articles.list.empty.create')}
       </LinkButton>
     </div>
   );
